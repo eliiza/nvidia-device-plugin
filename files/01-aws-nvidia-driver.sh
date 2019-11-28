@@ -51,14 +51,44 @@ class_to_driver_checksum=( \
 #   Subsequent files are patches which need to be applied in order
 #   Order in the arrays below matters
 # https://developer.nvidia.com/cuda-downloads
-cuda_files=( \
-  "https://developer.nvidia.com/compute/cuda/9.2/Prod2/local_installers/cuda_9.2.148_396.37_linux" \
-  "https://developer.nvidia.com/compute/cuda/9.2/Prod2/patches/1/cuda_9.2.148.1_linux"
-)
-cuda_files_checksums=( \
-  "c3cee4788a527ae33d66e4ada311f5cc15d7df1a" \
-  "6385bcde14c83e672df3e2c3c1a93f6392a9379e"
-)
+case $CUDA_VERSION in
+    9.2)
+        # CUDA Files that need to be installed ~1.4GB
+        #   First one is main installation
+        #   Subsequent files are patches which need to be applied in order
+        #   Order in the arrays below matters
+        # https://developer.nvidia.com/cuda-downloads
+        cuda_files=( \
+          "https://developer.nvidia.com/compute/cuda/9.2/Prod2/local_installers/cuda_9.2.148_396.37_linux" \
+          "https://developer.nvidia.com/compute/cuda/9.2/Prod2/patches/1/cuda_9.2.148.1_linux"
+        )
+        cuda_files_checksums=( \
+          "c3cee4788a527ae33d66e4ada311f5cc15d7df1a" \
+          "6385bcde14c83e672df3e2c3c1a93f6392a9379e"
+        )
+        ;;
+    10.0)
+        cuda_files=( \
+          "https://developer.nvidia.com/compute/cuda/10.0/Prod/local_installers/cuda_10.0.130_410.48_linux" \
+          "http://developer.download.nvidia.com/compute/cuda/10.0/Prod/patches/1/cuda_10.0.130.1_linux.run"
+        )
+
+        cuda_files_checksums=( \
+          "9375304c8dc8d42e7f9a9ae37e80b42b" \
+          "ac764df6900f0564e35298250736855e"
+        )
+        ;;
+    10.1)
+        cuda_files=( \
+          "http://developer.download.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda_10.1.243_418.87.00_linux.run" \
+        )
+
+        cuda_files_checksums=( \
+          "36706e2c0fb7efa14aea6a3c889271d97fd3575d" \
+        )
+        ;;
+    *) echo "CUDA ${CUDA_VERSION} not supported by kops hook" && exit 1
+esac
 
 containsElement () { for e in "${@:2}"; do [[ "$e" = "$1" ]] && return 0; done; return 1; }
 
