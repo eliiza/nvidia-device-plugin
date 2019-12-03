@@ -35,7 +35,7 @@ declare -A class_to_driver_file
 class_to_driver_file=( \
     ["g2"]="http://us.download.nvidia.com/XFree86/Linux-x86_64/367.124/NVIDIA-Linux-x86_64-367.124.run" \
     ["g3"]="http://us.download.nvidia.com/XFree86/Linux-x86_64/430.14/NVIDIA-Linux-x86_64-430.14.run" \
-    ["g4dn"]="http://us.download.nvidia.com/XFree86/Linux-x86_64/430.14/NVIDIA-Linux-x86_64-430.14.run" \
+    ["g4dn"]="http://us.download.nvidia.com/tesla/440.33.01/NVIDIA-Linux-x86_64-440.33.01.run" \
     ["p2"]="http://us.download.nvidia.com/XFree86/Linux-x86_64/430.14/NVIDIA-Linux-x86_64-430.14.run" \
     ["p3"]="http://us.download.nvidia.com/XFree86/Linux-x86_64/430.14/NVIDIA-Linux-x86_64-430.14.run" \
 )
@@ -43,7 +43,7 @@ declare -A class_to_driver_checksum
 class_to_driver_checksum=( \
     ["g2"]="77f37939efeea4b6505842bed50445971992e303" \
     ["g3"]="c7ac6043d66c30111d194f66f2665f461ec52574" \
-    ["g4dn"]="c7ac6043d66c30111d194f66f2665f461ec52574" \
+    ["g4dn"]="8c572bc032481a35dac9a5d2013f8981fbd95170" \
     ["p2"]="c7ac6043d66c30111d194f66f2665f461ec52574" \
     ["p3"]="c7ac6043d66c30111d194f66f2665f461ec52574" \
 )
@@ -178,6 +178,9 @@ nvidia-smi --auto-boost-permission=0
 
 # Custom configurations per class of nvidia video card
 case "$AWS_INSTANCE_CLASS" in
+"g4dn")
+  nvidia-smi -ac 5001,1590
+  ;;
 "g2" | "g3")
   nvidia-smi -ac 2505,1177
   ;;
